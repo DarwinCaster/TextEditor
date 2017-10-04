@@ -42,30 +42,32 @@ public class Browser extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		Login login = (Login) getParent();
-		if (arg0.getSource() == openFile){
-			try {
-				login.add(new Editor(directory.getName()+"\\"+bg.getSelection().getActionCommand()), "editor");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try{
+			System.out.println("Entered");
+			Login login = (Login) getParent();
+			
+			if(e.getSource()== openFile){
+				System.out.println("Opening Event Started");
+				String file =directory.getName() + "\\" +radio.getText();	
+				System.out.println(file);
+				login.add(new Editor(file), "editor");
+				login.cl.show(login, "editor");
 			}
-			login.cl.show(login, "editor");
-		}
-		if (arg0.getSource() == newFile){
-			String file = directory.getName()+"\\"+newFileTF.getText()+".txt";
-			if(newFileTF.getText().length() >0 && !(new File(file).exists()));
-			try {
-				login.add(new Editor(file), "Editor");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(e.getSource() == newFile){
+				String file = directory.getName()+"\\"+newFileTF.getText()+".txt";		
+				if(newFileTF.getText().length() > 0 && !(new File(file).exists())){
+					login.add(new Editor(file), "editor");
+					login.cl.show(login, "editor");					
+				}
 			}
-			login.cl.show(login, "editor");
+			
 		}
-
+		catch(Exception ex){
+			System.out.println("Can Not Open");
+		}
+		
 	}
 
 }
